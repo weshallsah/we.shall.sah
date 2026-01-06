@@ -38,6 +38,33 @@ export const projects: Project[] = [
     githubUrl: 'https://github.com/weshallsah/Attenomics-LLM-backend',
     featured: false,
   },
+  {
+    id: '4',
+    title: 'SneakerSync – Mobile Sneaker Marketplace',
+    description: 'A full-stack mobile marketplace for buying and selling sneakers built with Flutter and Node.js. Features secure user authentication, real-time data synchronization, and a responsive mobile-optimized UI. RESTful APIs handle business logic with proper validation and error handling, while MongoDB stores user data, product listings, and transactions.',
+    image: '/projects/sneakersync.jpg',
+    technologies: ['Flutter', 'Dart', 'Node.js', 'Express.js', 'MongoDB', 'GetX', 'REST API'],
+    githubUrl: 'https://github.com/sneaker-sync',
+    featured: false,
+  },
+  {
+    id: '5',
+    title: 'Streamer – Live Streaming Platform',
+    description: 'A backend-focused live streaming and video playback platform using RTMP, FFmpeg, and Node.js. Features live video broadcasting via RTMP protocol, video encoding and processing with FFmpeg, and efficient large file storage using MongoDB GridFS. Includes REST APIs for stream management, content delivery, and real-time interaction support.',
+    image: '/projects/streamer.jpg',
+    technologies: ['Node.js', 'Express.js', 'RTMP', 'FFmpeg', 'MongoDB', 'GridFS', 'REST API'],
+    githubUrl: 'https://github.com/vvs-pvt-ltd',
+    featured: false,
+  },
+  {
+    id: '6',
+    title: 'Attenomics – Social Media Analytics Platform',
+    description: 'A scalable backend system for processing and analyzing social media attention data at scale. Features automated daily data processing pipelines via cron jobs, ML-based attention metrics extraction, and secure REST APIs for analytics delivery. Built to handle 1,000+ users with optimized PostgreSQL queries and cloud-hosted infrastructure on AWS.',
+    image: '/projects/attenomics.jpg',
+    technologies: ['Node.js', 'Express.js', 'PostgreSQL', 'AWS EC2', 'AWS RDS', 'Cron', 'REST API'],
+    githubUrl: 'https://github.com/Attenomics-Labs',
+    featured: false,
+  },
 ];
 
 export const skills: Skill[] = [
@@ -149,6 +176,36 @@ export const githubRepos = [
     forks: 0,
     featured: true,
   },
+  {
+    id: '6',
+    name: 'sneaker-sync',
+    url: 'https://github.com/sneaker-sync',
+    description: 'Full-stack mobile sneaker marketplace built with Flutter and Node.js',
+    technologies: ['Flutter', 'Dart', 'Node.js', 'MongoDB'],
+    stars: 0,
+    forks: 0,
+    featured: true,
+  },
+  {
+    id: '7',
+    name: 'streamer',
+    url: 'https://github.com/vvs-pvt-ltd',
+    description: 'Live streaming platform with RTMP ingestion, FFmpeg processing, and MongoDB GridFS storage',
+    technologies: ['Node.js', 'Express.js', 'RTMP', 'FFmpeg', 'MongoDB'],
+    stars: 0,
+    forks: 0,
+    featured: true,
+  },
+  {
+    id: '8',
+    name: 'attenomics',
+    url: 'https://github.com/Attenomics-Labs',
+    description: 'Scalable social media analytics backend with automated data pipelines and ML metrics extraction',
+    technologies: ['Node.js', 'Express.js', 'PostgreSQL', 'AWS'],
+    stars: 0,
+    forks: 0,
+    featured: true,
+  },
 ];
 
 export const contactInfo: ContactInfo = {
@@ -158,6 +215,6 @@ export const contactInfo: ContactInfo = {
   socialLinks: [
     { platform: 'GitHub', url: 'https://github.com/weshallsah', icon: 'github' },
     { platform: 'LinkedIn', url: 'https://linkedin.com/in/weshallsah', icon: 'linkedin' },
-    { platform: 'Twitter', url: 'https://x.com/weshallsah', icon: 'twitter' },
+    { platform: 'Twitter', url: 'https://x.com/0xweshall', icon: 'twitter' },
   ],
 };
