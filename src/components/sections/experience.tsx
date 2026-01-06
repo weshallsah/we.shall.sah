@@ -108,13 +108,13 @@ export function Experience() {
                     </div>
 
                     {/* Description */}
-                    <p className="text-muted-foreground mb-4 leading-relaxed">
+                    <p className="text-muted-foreground mb-4 leading-relaxed line-clamp-4">
                       {experience.description}
                     </p>
 
                     {/* Technologies */}
                     {experience.technologies && (
-                      <div className="flex flex-wrap gap-2">
+                      <div className="badge-container">
                         {experience.technologies.map((tech) => (
                           <Badge
                             key={tech}
@@ -127,11 +127,7 @@ export function Experience() {
                       </div>
                     )}
 
-                    {/* Experience number badge */}
-                    <div className="absolute top-6 right-6 text-6xl font-bold text-primary/5 select-none">
-                      {String(index + 1).padStart(2, '0')}
-                    </div>
-                  </CardContent>
+                    </CardContent>
                 </Card>
               </motion.div>
             ))}

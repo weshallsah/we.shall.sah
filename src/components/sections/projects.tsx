@@ -78,7 +78,7 @@ export function Projects() {
         >
           {featuredProjects.map((project, index) => (
             <motion.div key={project.id} variants={cardVariants}>
-              <Card className="modern-card overflow-hidden group h-full border-2 border-transparent hover:border-primary/30">
+              <Card className="modern-card overflow-hidden group h-full border-2 border-transparent hover:border-primary/30 project-card-content">
                 {/* Enhanced Project Image/Banner Area */}
                 <div className="relative h-52 sm:h-60 overflow-hidden">
                   {/* Gradient background with animation */}
@@ -157,11 +157,11 @@ export function Projects() {
                   </CardTitle>
                 </CardHeader>
 
-                <CardContent>
-                  <p className="text-muted-foreground mb-4 line-clamp-3 leading-relaxed">
+                <CardContent className="project-card-body">
+                  <p className="text-muted-foreground mb-4 card-description">
                     {project.description}
                   </p>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="badge-container">
                     {project.technologies.slice(0, 5).map((tech, techIndex) => (
                       <motion.div
                         key={tech}
@@ -218,14 +218,14 @@ export function Projects() {
             >
               {otherProjects.map((project, index) => (
                 <motion.div key={project.id} variants={cardVariants}>
-                  <Card className="modern-card group h-full border border-border/50 hover:border-primary/30">
+                  <Card className="modern-card group h-full border border-border/50 hover:border-primary/30 project-card-content">
                     <CardHeader className="pb-3">
-                      <CardTitle className="flex items-center justify-between text-base sm:text-lg">
-                        <div className="flex items-center gap-3">
-                          <div className={`p-2 rounded-lg ${index % 3 === 0 ? 'bg-cyan-500/10 border border-cyan-500/20' : index % 3 === 1 ? 'bg-pink-500/10 border border-pink-500/20' : 'bg-emerald-500/10 border border-emerald-500/20'}`}>
+                      <CardTitle className="flex items-center justify-between text-base sm:text-lg gap-2">
+                        <div className="flex items-center gap-3 min-w-0 flex-1">
+                          <div className={`p-2 rounded-lg flex-shrink-0 ${index % 3 === 0 ? 'bg-cyan-500/10 border border-cyan-500/20' : index % 3 === 1 ? 'bg-pink-500/10 border border-pink-500/20' : 'bg-emerald-500/10 border border-emerald-500/20'}`}>
                             <Folder className={`h-4 w-4 ${index % 3 === 0 ? 'text-cyan-500' : index % 3 === 1 ? 'text-pink-500' : 'text-emerald-500'}`} />
                           </div>
-                          <span className="truncate font-semibold group-hover:text-primary transition-colors">
+                          <span className="truncate font-semibold group-hover:text-primary transition-colors min-w-0">
                             {project.title}
                           </span>
                         </div>
@@ -255,11 +255,11 @@ export function Projects() {
                         </div>
                       </CardTitle>
                     </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground text-sm mb-4 line-clamp-3 leading-relaxed">
+                    <CardContent className="project-card-body">
+                      <p className="text-muted-foreground text-sm mb-4 card-description">
                         {project.description}
                       </p>
-                      <div className="flex flex-wrap gap-1.5">
+                      <div className="badge-container">
                         {project.technologies.slice(0, 3).map((tech) => (
                           <Badge
                             key={tech}

@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { personalInfo } from '@/data/portfolio';
 import { scrollToSection } from '@/lib/utils';
-import { Github, Linkedin, Mail, ArrowDown, Sparkles, Terminal, Zap } from 'lucide-react';
+import { Github, Linkedin, Mail, ArrowDown, Sparkles, Terminal } from 'lucide-react';
 
 const roles = [
   'Backend Engineer',
