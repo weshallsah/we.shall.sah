@@ -124,7 +124,7 @@ export function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Left side - Text content */}
           <motion.div
-            className="space-y-6 sm:space-y-8 text-center lg:text-left order-2 lg:order-1"
+            className="space-y-6 sm:space-y-8 text-center lg:text-left"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
@@ -145,7 +145,7 @@ export function Hero() {
               </motion.h1>
 
               <motion.div
-                className="h-10 sm:h-12 mb-6 sm:mb-8 flex items-center gap-3"
+                className="h-10 sm:h-12 mb-6 sm:mb-8 flex items-center justify-center lg:justify-start gap-3"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5, duration: 0.6 }}
@@ -234,9 +234,9 @@ export function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* Right side - Enhanced Terminal */}
+          {/* Right side - Enhanced Terminal (hidden on mobile) */}
           <motion.div
-            className="order-1 lg:order-2"
+            className="hidden lg:block order-1 lg:order-2"
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}

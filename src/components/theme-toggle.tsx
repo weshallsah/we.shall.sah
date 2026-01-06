@@ -22,7 +22,7 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <div className="w-14 h-7 rounded-full bg-muted flex-shrink-0" />
+      <div className="w-11 h-6 md:w-14 md:h-7 rounded-full bg-muted flex-shrink-0" />
     );
   }
 
@@ -31,7 +31,7 @@ export function ThemeToggle() {
   return (
     <motion.button
       onClick={toggleTheme}
-      className={`relative z-10 flex-shrink-0 w-14 h-7 rounded-full border transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 overflow-hidden ${
+      className={`relative z-10 flex-shrink-0 w-11 h-6 md:w-14 md:h-7 rounded-full border transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 overflow-hidden ${
         isDark
           ? 'bg-slate-700 border-slate-600'
           : 'bg-amber-100 border-amber-200'
@@ -52,15 +52,11 @@ export function ThemeToggle() {
         )}
       </AnimatePresence>
 
-      {/* Sliding knob */}
+      {/* Sliding icon */}
       <motion.span
-        className={`absolute top-0.5 left-0.5 w-6 h-6 rounded-full shadow-md flex items-center justify-center ${
-          isDark
-            ? 'bg-slate-900 border border-slate-600'
-            : 'bg-white border border-amber-200'
-        }`}
+        className="absolute top-0.5 left-0.5 w-5 h-5 md:w-6 md:h-6 flex items-center justify-center"
         animate={{
-          x: isDark ? 28 : 0,
+          x: isDark ? 20 : 0,
         }}
         transition={{
           type: 'spring',
@@ -77,9 +73,9 @@ export function ThemeToggle() {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
             {isDark ? (
-              <Moon className="h-3.5 w-3.5 text-blue-300" />
+              <Moon className="h-3.5 w-3.5 md:h-4 md:w-4 text-blue-300" />
             ) : (
-              <Sun className="h-3.5 w-3.5 text-amber-500" />
+              <Sun className="h-3.5 w-3.5 md:h-4 md:w-4 text-amber-500" />
             )}
           </motion.div>
         </AnimatePresence>
