@@ -1,0 +1,21 @@
+<svg
+    width="400"
+    height="200"
+    viewBox="0 0 400 200"
+    xmlns="http://www.w3.org/2000/svg"
+>
+    <!-- Transparent background -->
+
+    <text
+        x="50%"
+        y="50%"
+        dominant-baseline="middle"
+        text-anchor="middle"
+        font-family="JetBrains Mono, Fira Code, Menlo, monospace"
+        font-size="96"
+        fill="#ffffff"
+        letter-spacing="-4"
+    >
+        &lt;vs/&gt;
+    </text>
+</svg>

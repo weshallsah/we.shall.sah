@@ -1,32 +1,32 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Download } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { scrollToSection } from '@/lib/utils';
-import { ThemeToggle } from '@/components/theme-toggle';
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X, Download } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { scrollToSection } from "@/lib/utils";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const navItems = [
-  { name: 'Home', href: '#home' },
-  { name: 'About', href: '#about' },
-  { name: 'Projects', href: '#projects' },
-  { name: 'Experience', href: '#experience' },
-  { name: 'Contact', href: '#contact' },
+  { name: "Home", href: "#home" },
+  { name: "About", href: "#about" },
+  { name: "Projects", href: "#projects" },
+  { name: "Experience", href: "#experience" },
+  { name: "Contact", href: "#contact" },
 ];
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
+  const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      const sections = navItems.map(item => item.href.replace('#', ''));
-      const current = sections.find(section => {
+      const sections = navItems.map((item) => item.href.replace("#", ""));
+      const current = sections.find((section) => {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
@@ -37,12 +37,12 @@ export function Navigation() {
       if (current) setActiveSection(current);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleNavClick = (href: string) => {
-    scrollToSection(href.replace('#', ''));
+    scrollToSection(href.replace("#", ""));
     setIsOpen(false);
   };
 
@@ -50,12 +50,12 @@ export function Navigation() {
     <motion.nav
       className={`fixed top-0 w-full z-50 transition-all duration-500 ${
         scrolled
-          ? 'bg-background/80 backdrop-blur-md border-b border-border/50'
-          : 'bg-transparent'
+          ? "bg-background/80 backdrop-blur-md border-b border-border/50"
+          : "bg-transparent"
       }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-14 sm:h-16">
@@ -65,15 +65,18 @@ export function Navigation() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            <Link href="/" className="text-lg sm:text-xl font-semibold tracking-tight text-foreground">
-              vishal<span className="text-muted-foreground">.dev</span>
+            <Link
+              href="/"
+              className="text-lg sm:text-xl font-semibold tracking-tight text-foreground"
+            >
+              weshall
             </Link>
           </motion.div>
 
           {/* Desktop Navigation - Clean underline style */}
           <div className="hidden md:flex items-center gap-8">
             {navItems.map((item) => {
-              const isActive = activeSection === item.href.replace('#', '');
+              const isActive = activeSection === item.href.replace("#", "");
               return (
                 <motion.button
                   key={item.name}
@@ -81,7 +84,13 @@ export function Navigation() {
                   className="relative py-2 text-sm font-medium transition-colors duration-300"
                   whileTap={{ scale: 0.98 }}
                 >
-                  <span className={isActive ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'}>
+                  <span
+                    className={
+                      isActive
+                        ? "text-foreground"
+                        : "text-muted-foreground hover:text-foreground"
+                    }
+                  >
                     {item.name}
                   </span>
                   {/* Animated underline */}
@@ -90,7 +99,7 @@ export function Navigation() {
                       className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground"
                       layoutId="navUnderline"
                       transition={{
-                        type: 'spring',
+                        type: "spring",
                         stiffness: 400,
                         damping: 30,
                       }}
@@ -160,7 +169,10 @@ export function Navigation() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-md border-b border-border"
+            className="md:hidden absolute top-full left-0 right-0 border-b border-border/50 shadow-lg bg-white/70 dark:bg-black/70 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-black/60"
+            style={{
+              WebkitBackdropFilter: "blur(16px)",
+            }}
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
@@ -168,15 +180,15 @@ export function Navigation() {
           >
             <div className="px-4 py-3 space-y-0.5">
               {navItems.map((item, index) => {
-                const isActive = activeSection === item.href.replace('#', '');
+                const isActive = activeSection === item.href.replace("#", "");
                 return (
                   <motion.button
                     key={item.name}
                     onClick={() => handleNavClick(item.href)}
                     className={`block w-full text-left px-3 py-2.5 text-sm font-medium transition-colors duration-300 border-l-2 ${
                       isActive
-                        ? 'text-foreground border-foreground bg-muted/50'
-                        : 'text-muted-foreground border-transparent hover:text-foreground hover:border-muted-foreground'
+                        ? "text-foreground border-foreground bg-muted/50"
+                        : "text-muted-foreground border-transparent hover:text-foreground hover:border-muted-foreground"
                     }`}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}

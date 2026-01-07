@@ -1,4 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
-  <rect width="32" height="32" rx="6" fill="#171717"/>
-  <text x="16" y="21" font-family="monospace" font-size="11" font-weight="bold" fill="#fafafa" text-anchor="middle">&lt;vs/&gt;</text>
+<svg
+  width="400"
+  height="200"
+  viewBox="0 0 400 200"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- Transparent background -->
+
+  <text
+    x="50%"
+    y="50%"
+    dominant-baseline="middle"
+    text-anchor="middle"
+    font-family="JetBrains Mono, Fira Code, Menlo, monospace"
+    font-size="140"
+    fill="#ffffff"
+    letter-spacing="-6"
+  >
+    &lt;vs/&gt;
+  </text>
 </svg>
