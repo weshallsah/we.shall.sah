@@ -12,6 +12,7 @@ const navItems = [
   { name: "Home", href: "#home" },
   { name: "About", href: "#about" },
   { name: "Projects", href: "#projects" },
+  { name: "Hackathons", href: "#hackathons" },
   { name: "Experience", href: "#experience" },
   { name: "Contact", href: "#contact" },
 ];
@@ -22,23 +23,27 @@ export function Navigation() {
   const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
+    const container = document.getElementById("scroll-container");
+    if (!container) return;
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(container.scrollLeft > 20);
 
       const sections = navItems.map((item) => item.href.replace("#", ""));
+      const viewportCenter = window.innerWidth / 2;
       const current = sections.find((section) => {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
-          return rect.top <= 100 && rect.bottom >= 100;
+          return rect.left <= viewportCenter && rect.right >= viewportCenter;
         }
         return false;
       });
       if (current) setActiveSection(current);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    container.addEventListener("scroll", handleScroll, { passive: true });
+    return () => container.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleNavClick = (href: string) => {

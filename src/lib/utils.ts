@@ -17,7 +17,7 @@ export function scrollToSection(sectionId: string) {
   try {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
     } else {
       console.warn(`Element with id "${sectionId}" not found`);
     }

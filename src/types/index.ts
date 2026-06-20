@@ -47,3 +47,17 @@ export interface ContactInfo {
   location: string;
   socialLinks: SocialLink[];
 }
+
+export interface Hackathon {
+  id: string;
+  name: string;
+  organizer: string;
+  project: string;
+  description: string;
+  result: string;
+  grantWon?: string;
+  technologies: string[];
+  liveUrl?: string;
+  githubUrl?: string;
+  akindoUrl?: string;
+}

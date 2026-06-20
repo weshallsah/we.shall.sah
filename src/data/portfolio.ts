@@ -1,4 +1,4 @@
-import { Project, Skill, Experience, ContactInfo } from '@/types';
+import { Project, Skill, Experience, ContactInfo, Hackathon } from '@/types';
 
 export const personalInfo = {
   name: 'Vishal Sah',
@@ -123,6 +123,14 @@ export const experiences: Experience[] = [
     description: 'Built a RAG-based backend system integrating LLMs with PostgreSQL vector databases. Scraped and processed Twitter data, generated 1024-dimensional Jina embeddings, and implemented LangChain memory for persistent conversational context. Designed scalable backend services with async job handling and caching. Deployed production-ready systems on AWS for low-latency performance.',
     technologies: ['Node.js', 'Express', 'PostgreSQL', 'AWS', 'LLMs', 'LangChain', 'Vector Databases'],
   },
+  {
+    id: '2',
+    company: 'HQPL',
+    position: 'Software Development Engineer',
+    duration: 'April 2026 – Present',
+    description: 'Currently working as a Software Development Engineer at HQPL.',
+    technologies: [],
+  },
 ];
 
 export const githubRepos = [
@@ -205,6 +213,42 @@ export const githubRepos = [
     stars: 0,
     forks: 0,
     featured: true,
+  },
+];
+
+export const hackathons: Hackathon[] = [
+  {
+    id: '1',
+    name: 'MetaMask × 1Shot API × Venice AI Hackathon',
+    organizer: 'MetaMask / 1Shot API / Venice AI',
+    project: 'ProSound – Web3 Music Rental Protocol',
+    description:
+      'Built a decentralized music rental protocol using NFTs for content ownership and time-bound access. Record NFTs represent ownership; rental NFTs grant encrypted access via Lit Protocol TEE. IP registered on Story Protocol. Winner of bounties for best use of decentralized access control.',
+    result: 'Bounty Winner',
+    technologies: ['Solidity', 'Hardhat', 'Story Protocol', 'Lit Protocol', 'IPFS', 'ERC-721', 'Node.js'],
+    liveUrl: 'https://www.prosound.live',
+    githubUrl: 'https://github.com/prosound-live/contract-soundlive',
+  },
+  {
+    id: '2',
+    name: 'Fhenix Buildathon',
+    organizer: 'Fhenix',
+    project: 'FHE-gated On-Chain Access Control',
+    description:
+      'Explored fully homomorphic encryption (FHE) for privacy-preserving smart contracts on the Fhenix L2. Built a system enabling encrypted on-chain computations — data processed without ever decrypting it, enabling confidential DeFi and private governance.',
+    result: 'Participant',
+    technologies: ['Solidity', 'Noir', 'FHE', 'Hardhat', 'TypeScript', 'Fhenix L2'],
+  },
+  {
+    id: '3',
+    name: 'HackQuest Web3 Hackathon',
+    organizer: 'HackQuest',
+    project: 'x402-ratelimiter – Paid API & Anti-Scraping Gateway',
+    description:
+      'Built a domain-aware rate-limiting gateway supporting HTTP 402 micropayments for API monetization. Features dynamic SSL certificate resolution, payment-gated access, and abuse prevention using NGINX/OpenResty and Lua scripting. Prevents free scraping while enabling pay-per-use APIs.',
+    result: 'Participant',
+    technologies: ['Node.js', 'NGINX', 'OpenResty', 'Lua', 'x402', 'TypeScript', 'PostgreSQL'],
+    githubUrl: 'https://github.com/ddos-protector',
   },
 ];
 
