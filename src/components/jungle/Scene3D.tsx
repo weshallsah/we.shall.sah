@@ -1,9 +1,10 @@
 'use client'
 
-import { useRef, useMemo, useEffect } from 'react'
+import { useRef, useMemo, useEffect, Suspense } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import type { LightingPreset } from './lighting'
+import { scrollProgress, Text3DLayer } from './Text3D'
 
 // ─── Camera spline: dives from the jungle edge (z=32) to the hidden lagoon (z=-56) ───
 const CAMERA_PATH = new THREE.CatmullRomCurve3(
@@ -48,6 +49,7 @@ function CameraRig() {
     smoothT.current += (t - smoothT.current) * 0.05
 
     const st = smoothT.current
+    scrollProgress.value = st
     CAMERA_PATH.getPointAt(st, pos)
 
     // Gentle ambient sway so the scene feels alive when not scrolling
@@ -325,6 +327,9 @@ export function Scene3D({ preset }: { preset: LightingPreset }) {
       <JungleFlora preset={preset} />
       <FireflyParticles preset={preset} />
       <BioLights preset={preset} />
+      <Suspense fallback={null}>
+        <Text3DLayer preset={preset} />
+      </Suspense>
     </>
   )
 }

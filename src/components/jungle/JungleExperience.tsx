@@ -148,13 +148,13 @@ function HeroSection({ preset }: { preset: LightingPreset }) {
   ])
 
   return (
-    <section id="section-0" className="min-h-screen flex items-center justify-center px-4">
-      <div className="text-center max-w-2xl mx-auto pt-20">
+    <section id="section-0" className="min-h-screen flex flex-col justify-end px-4 pb-20">
+      <div className="text-center max-w-2xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.3 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-mono mb-8"
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-mono mb-6"
           style={{
             borderColor: `${preset.accent}55`,
             color: preset.accent,
@@ -168,23 +168,11 @@ function HeroSection({ preset }: { preset: LightingPreset }) {
           Available for opportunities
         </motion.div>
 
-        <motion.h1
-          className="font-black text-white leading-none mb-4"
-          style={{ fontSize: 'clamp(3.5rem, 12vw, 7rem)' }}
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.75, delay: 0.4 }}
-        >
-          {personalInfo.name.split(' ')[0]}
-          <br />
-          <span style={{ color: preset.accent }}>{personalInfo.name.split(' ')[1]}</span>
-        </motion.h1>
-
         <motion.div
-          className="h-10 flex items-center justify-center gap-2 mb-7"
+          className="h-10 flex items-center justify-center gap-2 mb-5"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
+          transition={{ delay: 0.5 }}
         >
           <span className="text-white/35 text-xl font-mono">//</span>
           <span className="text-lg sm:text-xl font-mono text-white/75">
@@ -197,10 +185,10 @@ function HeroSection({ preset }: { preset: LightingPreset }) {
         </motion.div>
 
         <motion.p
-          className="text-white/55 text-base sm:text-lg max-w-md mx-auto mb-10 leading-relaxed"
+          className="text-white/55 text-base sm:text-lg max-w-md mx-auto mb-8 leading-relaxed"
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
+          transition={{ delay: 0.65 }}
         >
           Building the bridge between traditional systems and the decentralised future —
           scalable backends, smart contracts, protocol design.
@@ -210,7 +198,7 @@ function HeroSection({ preset }: { preset: LightingPreset }) {
           className="flex items-center justify-center gap-3 flex-wrap"
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.82 }}
+          transition={{ delay: 0.8 }}
         >
           {contactInfo.socialLinks.map(s => (
             <a
@@ -236,10 +224,10 @@ function HeroSection({ preset }: { preset: LightingPreset }) {
         </motion.div>
 
         <motion.div
-          className="mt-16 flex flex-col items-center gap-1.5 text-white/25 text-xs font-mono"
+          className="mt-10 flex flex-col items-center gap-1.5 text-white/25 text-xs font-mono"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
+          transition={{ delay: 1.4 }}
         >
           <motion.span
             animate={{ y: [0, 7, 0] }}
@@ -257,15 +245,8 @@ function HeroSection({ preset }: { preset: LightingPreset }) {
 // ─── About ────────────────────────────────────────────────────────────────────
 function AboutSection({ preset }: { preset: LightingPreset }) {
   return (
-    <section id="section-1" className="min-h-screen flex items-center justify-center px-4 py-24">
+    <section id="section-1" className="min-h-screen flex flex-col justify-end px-4 pb-20">
       <div id="about" className="max-w-3xl mx-auto w-full scroll-mt-20">
-        <FadeIn>
-          <h2 className="text-4xl sm:text-5xl font-black text-white mb-2">
-            About <span style={{ color: preset.accent }}>Me</span>
-          </h2>
-          <div className="h-0.5 w-14 rounded mb-10" style={{ background: preset.accent }} />
-        </FadeIn>
-
         <div className="grid md:grid-cols-2 gap-5">
           <FadeIn delay={0.1}>
             <div className={`${GLASS} p-6 h-full`}>
@@ -311,15 +292,8 @@ function SkillsSection({ preset }: { preset: LightingPreset }) {
   ]
 
   return (
-    <section id="section-2" className="min-h-screen flex items-center justify-center px-4 py-24">
+    <section id="section-2" className="min-h-screen flex flex-col justify-end px-4 pb-20">
       <div id="skills" className="max-w-4xl mx-auto w-full scroll-mt-20">
-        <FadeIn>
-          <h2 className="text-4xl sm:text-5xl font-black text-white mb-2">
-            Tech <span style={{ color: preset.accent }}>Stack</span>
-          </h2>
-          <div className="h-0.5 w-14 rounded mb-10" style={{ background: preset.accent }} />
-        </FadeIn>
-
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {categories.map(({ key, label, emoji }, ci) => {
             const catSkills = skills.filter(s => s.category === key)
@@ -354,15 +328,8 @@ function SkillsSection({ preset }: { preset: LightingPreset }) {
 // ─── Projects ─────────────────────────────────────────────────────────────────
 function ProjectsSection({ preset }: { preset: LightingPreset }) {
   return (
-    <section id="section-3" className="min-h-screen flex items-center justify-center px-4 py-24">
+    <section id="section-3" className="min-h-screen flex flex-col justify-end px-4 pb-20">
       <div id="projects" className="max-w-5xl mx-auto w-full scroll-mt-20">
-        <FadeIn>
-          <h2 className="text-4xl sm:text-5xl font-black text-white mb-2">
-            <span style={{ color: preset.accent }}>Projects</span>
-          </h2>
-          <div className="h-0.5 w-14 rounded mb-10" style={{ background: preset.accent }} />
-        </FadeIn>
-
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {projects.map((p, i) => (
             <FadeIn key={p.id} delay={i * 0.06}>
@@ -424,15 +391,8 @@ function ProjectsSection({ preset }: { preset: LightingPreset }) {
 // ─── Hackathons ───────────────────────────────────────────────────────────────
 function HackathonsSection({ preset }: { preset: LightingPreset }) {
   return (
-    <section id="section-4" className="min-h-screen flex items-center justify-center px-4 py-24">
+    <section id="section-4" className="min-h-screen flex flex-col justify-end px-4 pb-20">
       <div className="max-w-3xl mx-auto w-full">
-        <FadeIn>
-          <h2 className="text-4xl sm:text-5xl font-black text-white mb-2">
-            Hack<span style={{ color: preset.accent }}>athons</span>
-          </h2>
-          <div className="h-0.5 w-14 rounded mb-10" style={{ background: preset.accent }} />
-        </FadeIn>
-
         <div className="flex flex-col gap-5">
           {hackathons.map((h, i) => (
             <FadeIn key={h.id} delay={i * 0.1}>
@@ -513,15 +473,8 @@ function HackathonsSection({ preset }: { preset: LightingPreset }) {
 // ─── Experience ───────────────────────────────────────────────────────────────
 function ExperienceSection({ preset }: { preset: LightingPreset }) {
   return (
-    <section id="section-5" className="min-h-screen flex items-center justify-center px-4 py-24">
+    <section id="section-5" className="min-h-screen flex flex-col justify-end px-4 pb-20">
       <div className="max-w-3xl mx-auto w-full">
-        <FadeIn>
-          <h2 className="text-4xl sm:text-5xl font-black text-white mb-2">
-            <span style={{ color: preset.accent }}>Experience</span>
-          </h2>
-          <div className="h-0.5 w-14 rounded mb-10" style={{ background: preset.accent }} />
-        </FadeIn>
-
         <div className="relative pl-10">
           {/* Vertical line */}
           <div
@@ -596,14 +549,10 @@ function ContactSection({ preset }: { preset: LightingPreset }) {
   }
 
   return (
-    <section id="section-6" className="min-h-screen flex items-center justify-center px-4 py-24">
+    <section id="section-6" className="min-h-screen flex flex-col justify-end px-4 pb-20">
       <div id="contact" className="max-w-3xl mx-auto w-full scroll-mt-20">
         <FadeIn>
-          <h2 className="text-4xl sm:text-5xl font-black text-white mb-2">
-            Let&apos;s <span style={{ color: preset.accent }}>Connect</span>
-          </h2>
-          <div className="h-0.5 w-14 rounded mb-3" style={{ background: preset.accent }} />
-          <p className="text-white/35 text-xs font-mono mb-10">
+          <p className="text-white/35 text-xs font-mono mb-8">
             {preset.timeOfDay === 'night'
               ? '// you found the hidden lagoon'
               : preset.timeOfDay === 'dusk'

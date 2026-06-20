@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { personalInfo } from '@/data/portfolio';
 import { scrollToSection } from '@/lib/utils';
 import {
-  Github, Linkedin, Mail, ArrowRight, Sparkles, Terminal,
+  Github, Linkedin, Mail, ArrowRight, Terminal,
   Server, Database, Shield, GitBranch, Cpu, Layers, Cloud, Lock,
 } from 'lucide-react';
 
@@ -238,16 +238,6 @@ export function Hero() {
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
             <div>
-              <motion.div
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-400 text-sm font-mono mb-6"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-              >
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                Available for opportunities
-              </motion.div>
-
               <motion.h1
                 className="text-responsive-hero font-bold mb-4 sm:mb-6 text-foreground leading-[1.1]"
                 initial={{ opacity: 0, y: 20 }}
