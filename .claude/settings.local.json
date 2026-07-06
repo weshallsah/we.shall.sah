@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(npm run *)",
+      "Bash(npx --yes tsc --project /home/qoneqt/Documents/projects/we.shall.sah/tsconfig.json --noEmit)"
     ]
   }
 }

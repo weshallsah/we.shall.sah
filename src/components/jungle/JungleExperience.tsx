@@ -84,27 +84,59 @@ const CATEGORY_COLORS: Record<string, string> = {
 
 const SECTION_LABELS = ['Home', 'About', 'Skills', 'Projects', 'Hackathons', 'Experience', 'Contact']
 
+// ─── Section heading ──────────────────────────────────────────────────────────
+function SectionLabel({ title, sub, accent }: { title: string; sub?: string; accent: string }) {
+  return (
+    <div className="mb-8 sm:mb-10">
+      <div className="flex items-center gap-3 mb-1">
+        <div className="h-px w-5 rounded-full" style={{ background: accent }} />
+        <span className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.18em] font-semibold" style={{ color: accent }}>
+          {title}
+        </span>
+      </div>
+      {sub && (
+        <p className="text-white/35 text-xs font-mono ml-8">{sub}</p>
+      )}
+    </div>
+  )
+}
+
 // ─── Minimal sticky nav ───────────────────────────────────────────────────────
 function MinimalNav({ accent }: { accent: string }) {
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4"
-      style={{ background: 'rgba(0,0,0,0.35)', backdropFilter: 'blur(8px)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}
+      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 sm:px-8 py-3.5"
+      style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}
     >
-      <span className="font-mono text-white/90 text-sm font-semibold tracking-wider">
+      <span className="font-mono text-white/90 text-sm font-bold tracking-wider">
         <span style={{ color: accent }}>{'>'}</span> vishal.sah
       </span>
-      <div className="hidden md:flex items-center gap-6 text-xs font-mono text-white/45">
-        {['about', 'skills', 'projects', 'contact'].map(s => (
-          <a
-            key={s}
-            href={`#${s}`}
-            className="hover:text-white/90 transition-colors"
+      <div className="hidden md:flex items-center gap-7 text-xs font-mono text-white/40">
+        {[
+          { label: 'about', id: 'section-1' },
+          { label: 'skills', id: 'section-2' },
+          { label: 'projects', id: 'section-3' },
+          { label: 'hackathons', id: 'section-4' },
+          { label: 'experience', id: 'section-5' },
+          { label: 'contact', id: 'section-6' },
+        ].map(({ label, id }) => (
+          <button
+            key={label}
+            onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })}
+            className="hover:text-white/90 transition-colors capitalize"
           >
-            {s}
-          </a>
+            {label}
+          </button>
         ))}
       </div>
+      <a
+        href="/resume/withexperience.pdf"
+        download="Vishal_Sah_Resume.pdf"
+        className="hidden md:flex items-center gap-1.5 text-xs font-mono px-3.5 py-1.5 rounded-lg border transition-all hover:opacity-90"
+        style={{ borderColor: `${accent}50`, color: accent, background: `${accent}12` }}
+      >
+        resume ↓
+      </a>
     </nav>
   )
 }
@@ -150,55 +182,68 @@ function HeroSection({ preset }: { preset: LightingPreset }) {
   return (
     <section id="section-0" className="min-h-screen flex flex-col justify-end px-4 pb-20">
       <div className="text-center max-w-2xl mx-auto">
+
+        {/* Status badge */}
         <motion.div
           initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.3 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-mono mb-6"
+          transition={{ duration: 0.55, delay: 0.2 }}
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-mono mb-7"
           style={{
             borderColor: `${preset.accent}55`,
             color: preset.accent,
             background: `${preset.accent}14`,
           }}
         >
-          <span
-            className="w-1.5 h-1.5 rounded-full animate-pulse"
-            style={{ background: preset.accent }}
-          />
+          <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: preset.accent }} />
           Available for opportunities
         </motion.div>
 
+        {/* Name */}
+        <motion.h1
+          className="text-5xl sm:text-6xl md:text-7xl font-bold text-white/95 mb-3 tracking-tight"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.35 }}
+          style={{ fontFamily: 'var(--font-geist-sans)' }}
+        >
+          {personalInfo.name}
+        </motion.h1>
+
+        {/* Typing role */}
         <motion.div
-          className="h-10 flex items-center justify-center gap-2 mb-5"
+          className="h-9 flex items-center justify-center gap-2 mb-5"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.55 }}
         >
-          <span className="text-white/35 text-xl font-mono">//</span>
-          <span className="text-lg sm:text-xl font-mono text-white/75">
+          <span className="text-white/25 text-lg font-mono">—</span>
+          <span className="text-base sm:text-lg font-mono text-white/65">
             {role}
             <span
               className="inline-block w-0.5 ml-1 animate-pulse align-middle"
-              style={{ height: '1.2em', background: preset.accent }}
+              style={{ height: '1.1em', background: preset.accent }}
             />
           </span>
         </motion.div>
 
+        {/* Bio */}
         <motion.p
-          className="text-white/55 text-base sm:text-lg max-w-md mx-auto mb-8 leading-relaxed"
-          initial={{ opacity: 0, y: 18 }}
+          className="text-white/50 text-sm sm:text-base max-w-md mx-auto mb-9 leading-relaxed"
+          initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.65 }}
+          transition={{ delay: 0.68 }}
         >
           Building the bridge between traditional systems and the decentralised future —
           scalable backends, smart contracts, protocol design.
         </motion.p>
 
+        {/* CTAs */}
         <motion.div
           className="flex items-center justify-center gap-3 flex-wrap"
-          initial={{ opacity: 0, y: 18 }}
+          initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
+          transition={{ delay: 0.82 }}
         >
           {contactInfo.socialLinks.map(s => (
             <a
@@ -206,36 +251,45 @@ function HeroSection({ preset }: { preset: LightingPreset }) {
               href={s.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center w-11 h-11 rounded-xl border border-white/10 bg-white/5 text-white/55 hover:text-white hover:border-white/30 transition-all hover:-translate-y-0.5"
+              className="flex items-center justify-center w-10 h-10 rounded-xl border border-white/10 bg-white/5 text-white/50 hover:text-white hover:border-white/25 transition-all duration-200 hover:-translate-y-0.5"
             >
-              {s.icon === 'github'   && <Github   size={17} />}
-              {s.icon === 'linkedin' && <Linkedin size={17} />}
-              {s.icon === 'twitter'  && <Twitter  size={17} />}
+              {s.icon === 'github'   && <Github   size={16} />}
+              {s.icon === 'linkedin' && <Linkedin size={16} />}
+              {s.icon === 'twitter'  && <Twitter  size={16} />}
             </a>
           ))}
           <a
             href={`mailto:${contactInfo.email}`}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-mono font-semibold transition-all hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-mono font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90"
             style={{ background: preset.accent, color: '#000' }}
           >
             <Mail size={14} />
             Get in touch
           </a>
+          <a
+            href="/resume/withexperience.pdf"
+            download="Vishal_Sah_Resume.pdf"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-mono font-semibold border transition-all duration-200 hover:-translate-y-0.5 text-white/60 hover:text-white/90 hover:border-white/25"
+            style={{ borderColor: 'rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.04)' }}
+          >
+            Resume ↓
+          </a>
         </motion.div>
 
+        {/* Scroll hint */}
         <motion.div
-          className="mt-10 flex flex-col items-center gap-1.5 text-white/25 text-xs font-mono"
+          className="mt-12 flex flex-col items-center gap-1.5 text-white/20 text-xs font-mono"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.4 }}
+          transition={{ delay: 1.5 }}
         >
           <motion.span
             animate={{ y: [0, 7, 0] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
           >
             ↓
           </motion.span>
-          scroll to dive deeper
+          scroll to explore
         </motion.div>
       </div>
     </section>
@@ -247,10 +301,13 @@ function AboutSection({ preset }: { preset: LightingPreset }) {
   return (
     <section id="section-1" className="min-h-screen flex flex-col justify-end px-4 pb-20">
       <div id="about" className="max-w-3xl mx-auto w-full scroll-mt-20">
-        <div className="grid md:grid-cols-2 gap-5">
-          <FadeIn delay={0.1}>
+        <FadeIn>
+          <SectionLabel title="About" sub="Who I am & what I do" accent={preset.accent} />
+        </FadeIn>
+        <div className="grid md:grid-cols-2 gap-4">
+          <FadeIn delay={0.08}>
             <div className={`${GLASS} p-6 h-full`}>
-              <p className="text-white/70 leading-relaxed text-sm sm:text-[0.9rem]">
+              <p className="text-white/68 leading-[1.75] text-sm sm:text-[0.9rem]">
                 {personalInfo.bio}
               </p>
             </div>
@@ -258,16 +315,16 @@ function AboutSection({ preset }: { preset: LightingPreset }) {
 
           <div className="flex flex-col gap-3">
             {([
-              { icon: '📍', label: 'Location',    value: contactInfo.location },
-              { icon: '⚙️', label: 'Focus',       value: 'Backend Systems & Web3 Protocols' },
-              { icon: '🌱', label: 'Currently',   value: 'Building decentralised access-control systems' },
-              { icon: '🏆', label: 'Hackathons',  value: '3+ competitions · 1 bounty win' },
+              { icon: '📍', label: 'Location',   value: contactInfo.location },
+              { icon: '⚙️', label: 'Focus',      value: 'Backend Systems & Web3 Protocols' },
+              { icon: '🌱', label: 'Currently',  value: 'Building decentralised access-control systems' },
+              { icon: '🏆', label: 'Hackathons', value: '3+ competitions · 1 bounty win' },
             ] as const).map(({ icon, label, value }, i) => (
               <FadeIn key={label} delay={0.1 + i * 0.07}>
-                <div className={`${GLASS} p-4 flex items-start gap-3`}>
-                  <span className="text-lg mt-0.5 leading-none">{icon}</span>
+                <div className={`${GLASS} p-4 flex items-start gap-3 hover:border-white/18 transition-colors`}>
+                  <span className="text-base mt-0.5 leading-none select-none">{icon}</span>
                   <div>
-                    <div className="text-white/35 text-xs font-mono mb-0.5">{label}</div>
+                    <div className="text-white/30 text-[10px] font-mono uppercase tracking-widest mb-0.5">{label}</div>
                     <div className="text-white/80 text-sm">{value}</div>
                   </div>
                 </div>
@@ -294,16 +351,19 @@ function SkillsSection({ preset }: { preset: LightingPreset }) {
   return (
     <section id="section-2" className="min-h-screen flex flex-col justify-end px-4 pb-20">
       <div id="skills" className="max-w-4xl mx-auto w-full scroll-mt-20">
+        <FadeIn>
+          <SectionLabel title="Skills" sub="Technologies & tools I work with" accent={preset.accent} />
+        </FadeIn>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {categories.map(({ key, label, emoji }, ci) => {
             const catSkills = skills.filter(s => s.category === key)
             if (!catSkills.length) return null
             return (
-              <FadeIn key={key} delay={ci * 0.07}>
-                <div className={`${GLASS} p-5 h-full`}>
+              <FadeIn key={key} delay={ci * 0.06}>
+                <div className={`${GLASS} p-5 h-full hover:border-white/18 transition-colors`}>
                   <div className="flex items-center gap-2 mb-4">
-                    <span className="text-base leading-none">{emoji}</span>
-                    <span className="text-white/85 font-semibold text-sm">{label}</span>
+                    <span className="text-sm leading-none select-none">{emoji}</span>
+                    <span className="text-white/80 font-semibold text-xs uppercase tracking-wide">{label}</span>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {catSkills.map(skill => (
@@ -330,51 +390,54 @@ function ProjectsSection({ preset }: { preset: LightingPreset }) {
   return (
     <section id="section-3" className="min-h-screen flex flex-col justify-end px-4 pb-20">
       <div id="projects" className="max-w-5xl mx-auto w-full scroll-mt-20">
+        <FadeIn>
+          <SectionLabel title="Projects" sub="Things I've built" accent={preset.accent} />
+        </FadeIn>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {projects.map((p, i) => (
             <FadeIn key={p.id} delay={i * 0.06}>
-              <div className={`${GLASS} p-5 flex flex-col h-full hover:border-white/20 transition-all`}>
-                <div className="flex items-start justify-between mb-3 gap-2">
-                  <h3 className="text-white/88 font-semibold text-sm leading-tight">{p.title}</h3>
+              <div className={`${GLASS} p-5 flex flex-col h-full hover:border-white/20 transition-colors duration-200`}>
+                {/* Title row */}
+                <div className="flex items-start justify-between mb-2.5 gap-2">
+                  <div className="flex-1 min-w-0">
+                    {p.featured && (
+                      <span
+                        className="inline-block text-[9px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded mb-1.5"
+                        style={{ color: preset.accent, background: `${preset.accent}18`, border: `1px solid ${preset.accent}35` }}
+                      >
+                        featured
+                      </span>
+                    )}
+                    <h3 className="text-white/90 font-semibold text-sm leading-snug">{p.title}</h3>
+                  </div>
                   <div className="flex gap-1.5 flex-shrink-0 pt-0.5">
                     {p.githubUrl && (
-                      <a
-                        href={p.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-white/35 hover:text-white/90 transition-colors"
-                      >
+                      <a href={p.githubUrl} target="_blank" rel="noopener noreferrer"
+                        className="text-white/30 hover:text-white/85 transition-colors">
                         <Github size={13} />
                       </a>
                     )}
                     {p.liveUrl && p.liveUrl !== 'https://example.com' && (
-                      <a
-                        href={p.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-white/35 hover:text-white/90 transition-colors"
-                      >
+                      <a href={p.liveUrl} target="_blank" rel="noopener noreferrer"
+                        className="text-white/30 hover:text-white/85 transition-colors">
                         <ExternalLink size={13} />
                       </a>
                     )}
                   </div>
                 </div>
 
-                <p className="text-white/50 text-xs leading-relaxed mb-4 flex-1 line-clamp-4">
+                <p className="text-white/48 text-xs leading-relaxed mb-4 flex-1 line-clamp-4">
                   {p.description}
                 </p>
 
                 <div className="flex flex-wrap gap-1.5 mt-auto">
                   {p.technologies.slice(0, 5).map(t => (
-                    <span
-                      key={t}
-                      className="px-2 py-0.5 rounded-full text-xs font-mono border border-white/10 text-white/40"
-                    >
+                    <span key={t} className="px-2 py-0.5 rounded-full text-[10px] font-mono border border-white/10 text-white/38">
                       {t}
                     </span>
                   ))}
                   {p.technologies.length > 5 && (
-                    <span className="text-[10px] text-white/25 font-mono self-end">
+                    <span className="text-[10px] text-white/22 font-mono self-end">
                       +{p.technologies.length - 5}
                     </span>
                   )}
@@ -393,16 +456,19 @@ function HackathonsSection({ preset }: { preset: LightingPreset }) {
   return (
     <section id="section-4" className="min-h-screen flex flex-col justify-end px-4 pb-20">
       <div className="max-w-3xl mx-auto w-full">
+        <FadeIn>
+          <SectionLabel title="Hackathons" sub="Competitions & builds" accent={preset.accent} />
+        </FadeIn>
         <div className="flex flex-col gap-5">
           {hackathons.map((h, i) => (
             <FadeIn key={h.id} delay={i * 0.1}>
-              <div className={`${GLASS} p-6`}>
+              <div className={`${GLASS} p-6 hover:border-white/18 transition-colors`}>
                 <div className="flex items-start justify-between mb-3 gap-3">
                   <div>
-                    <h3 className="text-white/88 font-semibold text-sm sm:text-base leading-snug">
+                    <h3 className="text-white/90 font-semibold text-sm sm:text-base leading-snug">
                       {h.name}
                     </h3>
-                    <p className="text-white/35 text-xs font-mono mt-0.5">{h.organizer}</p>
+                    <p className="text-white/30 text-[10px] font-mono uppercase tracking-wide mt-1">{h.organizer}</p>
                   </div>
                   <span
                     className="flex-shrink-0 flex items-center gap-1 px-3 py-1 rounded-full text-xs font-mono"
@@ -475,6 +541,9 @@ function ExperienceSection({ preset }: { preset: LightingPreset }) {
   return (
     <section id="section-5" className="min-h-screen flex flex-col justify-end px-4 pb-20">
       <div className="max-w-3xl mx-auto w-full">
+        <FadeIn>
+          <SectionLabel title="Experience" sub="Where I've worked" accent={preset.accent} />
+        </FadeIn>
         <div className="relative pl-10">
           {/* Vertical line */}
           <div
@@ -552,13 +621,7 @@ function ContactSection({ preset }: { preset: LightingPreset }) {
     <section id="section-6" className="min-h-screen flex flex-col justify-end px-4 pb-20">
       <div id="contact" className="max-w-3xl mx-auto w-full scroll-mt-20">
         <FadeIn>
-          <p className="text-white/35 text-xs font-mono mb-8">
-            {preset.timeOfDay === 'night'
-              ? '// you found the hidden lagoon'
-              : preset.timeOfDay === 'dusk'
-              ? '// settling in at the jungle heart'
-              : '// the heart of the jungle — welcome'}
-          </p>
+          <SectionLabel title="Contact" sub="Let's work together" accent={preset.accent} />
         </FadeIn>
 
         <div className="grid md:grid-cols-2 gap-5">
@@ -566,10 +629,10 @@ function ContactSection({ preset }: { preset: LightingPreset }) {
           <FadeIn delay={0.1}>
             <div className={`${GLASS} p-6 flex flex-col gap-5 h-full`}>
               <div>
-                <p className="text-white/30 text-xs font-mono mb-1">email</p>
+                <p className="text-white/28 text-[10px] font-mono uppercase tracking-widest mb-1.5">email</p>
                 <a
                   href={`mailto:${contactInfo.email}`}
-                  className="text-sm hover:opacity-80 transition-opacity"
+                  className="text-sm font-mono hover:opacity-80 transition-opacity break-all"
                   style={{ color: preset.accent }}
                 >
                   {contactInfo.email}
@@ -578,21 +641,21 @@ function ContactSection({ preset }: { preset: LightingPreset }) {
 
               {contactInfo.phone && (
                 <div>
-                  <p className="text-white/30 text-xs font-mono mb-1">phone</p>
-                  <p className="text-white/75 text-sm">{contactInfo.phone}</p>
+                  <p className="text-white/28 text-[10px] font-mono uppercase tracking-widest mb-1.5">phone</p>
+                  <p className="text-white/75 text-sm font-mono">{contactInfo.phone}</p>
                 </div>
               )}
 
               <div>
-                <p className="text-white/30 text-xs font-mono mb-1">location</p>
-                <p className="text-white/75 text-sm flex items-center gap-1.5">
-                  <MapPin size={11} className="opacity-40" />
+                <p className="text-white/28 text-[10px] font-mono uppercase tracking-widest mb-1.5">location</p>
+                <p className="text-white/70 text-sm flex items-center gap-1.5">
+                  <MapPin size={11} className="opacity-35 flex-shrink-0" />
                   {contactInfo.location}
                 </p>
               </div>
 
-              <div>
-                <p className="text-white/30 text-xs font-mono mb-3">socials</p>
+              <div className="mt-auto">
+                <p className="text-white/28 text-[10px] font-mono uppercase tracking-widest mb-3">socials</p>
                 <div className="flex gap-2">
                   {contactInfo.socialLinks.map(s => (
                     <a
@@ -600,7 +663,7 @@ function ContactSection({ preset }: { preset: LightingPreset }) {
                       href={s.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center w-10 h-10 rounded-xl border border-white/10 bg-white/5 text-white/45 hover:text-white hover:border-white/25 transition-all"
+                      className="flex items-center justify-center w-10 h-10 rounded-xl border border-white/10 bg-white/5 text-white/40 hover:text-white hover:border-white/25 transition-all duration-200 hover:-translate-y-0.5"
                       title={s.platform}
                     >
                       {s.icon === 'github'   && <Github   size={15} />}
@@ -615,14 +678,17 @@ function ContactSection({ preset }: { preset: LightingPreset }) {
 
           {/* Message form */}
           <FadeIn delay={0.18}>
-            <form onSubmit={handleSubmit} className={`${GLASS} p-6 flex flex-col gap-4`}>
+            <form onSubmit={handleSubmit} className={`${GLASS} p-6 flex flex-col gap-3.5`}>
               <input
                 type="text"
                 placeholder="Your name"
                 required
                 value={form.name}
                 onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white/85 text-sm placeholder-white/25 focus:outline-none focus:border-white/25 transition-colors"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white/85 text-sm placeholder-white/22 outline-none transition-colors"
+                style={{ fontFamily: 'inherit' }}
+                onFocus={e => (e.target.style.borderColor = `${preset.accent}60`)}
+                onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.10)')}
               />
               <input
                 type="email"
@@ -630,7 +696,10 @@ function ContactSection({ preset }: { preset: LightingPreset }) {
                 required
                 value={form.email}
                 onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white/85 text-sm placeholder-white/25 focus:outline-none focus:border-white/25 transition-colors"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white/85 text-sm placeholder-white/22 outline-none transition-colors"
+                style={{ fontFamily: 'inherit' }}
+                onFocus={e => (e.target.style.borderColor = `${preset.accent}60`)}
+                onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.10)')}
               />
               <textarea
                 placeholder="Your message"
@@ -638,11 +707,14 @@ function ContactSection({ preset }: { preset: LightingPreset }) {
                 rows={4}
                 value={form.message}
                 onChange={e => setForm(p => ({ ...p, message: e.target.value }))}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white/85 text-sm placeholder-white/25 focus:outline-none focus:border-white/25 transition-colors resize-none"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white/85 text-sm placeholder-white/22 outline-none transition-colors resize-none"
+                style={{ fontFamily: 'inherit' }}
+                onFocus={e => (e.target.style.borderColor = `${preset.accent}60`)}
+                onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.10)')}
               />
               <button
                 type="submit"
-                className="w-full py-2.5 rounded-xl text-sm font-semibold font-mono transition-all hover:-translate-y-0.5 hover:opacity-90"
+                className="w-full py-2.5 rounded-xl text-sm font-semibold font-mono transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90 mt-0.5"
                 style={{ background: preset.accent, color: '#000' }}
               >
                 {sent ? '✓ opening mail client…' : '→ send message'}
@@ -652,9 +724,12 @@ function ContactSection({ preset }: { preset: LightingPreset }) {
         </div>
 
         <FadeIn delay={0.3}>
-          <p className="text-center text-white/18 text-xs font-mono mt-16">
-            crafted with three.js · next.js · framer-motion · {new Date().getFullYear()} · vishal sah
-          </p>
+          <div className="mt-16 flex flex-col items-center gap-2">
+            <div className="h-px w-20 rounded-full" style={{ background: `${preset.accent}40` }} />
+            <p className="text-white/18 text-[10px] font-mono mt-2">
+              built with three.js · next.js · framer-motion · vishal sah
+            </p>
+          </div>
         </FadeIn>
       </div>
     </section>

@@ -128,8 +128,8 @@ export const experiences: Experience[] = [
     company: 'HQPL',
     position: 'Software Development Engineer',
     duration: 'April 2026 – Present',
-    description: 'Currently working as a Software Development Engineer at HQPL.',
-    technologies: [],
+    description: 'Designing and building production backend systems, contributing to architecture decisions, and delivering features across the full development lifecycle. Working across API design, database optimization, and infrastructure to deliver reliable, scalable software.',
+    technologies: ['Node.js', 'TypeScript', 'PostgreSQL', 'REST APIs'],
   },
 ];
 
