@@ -1,153 +1,66 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Calendar } from 'lucide-react';
 import { experiences } from '@/data/portfolio';
-import { Briefcase, Calendar, Building2 } from 'lucide-react';
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, x: -30 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.6, ease: 'easeOut' as const },
-  },
-};
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.5, delay, ease: 'easeOut' as const },
+});
 
 export function Experience() {
   return (
-    <section id="experience" className="section-padding bg-muted/30 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />
-      </div>
-
-      <div className="max-w-7xl mx-auto container-padding relative">
-        <motion.div
-          className="text-center mb-12 md:mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+    <section id="experience" className="section-pad" style={{ background: 'hsl(var(--secondary) / 0.25)' }}>
+      <div className="section-inner">
+        <motion.span className="section-label" {...fadeUp(0)}>Experience</motion.span>
+        <motion.h2
+          className="text-3xl sm:text-4xl font-bold text-foreground mb-3"
+          {...fadeUp(0.05)}
         >
-          <Badge className="mb-4 badge-gradient">Career</Badge>
-          <h2 className="text-responsive-2xl font-bold text-foreground mb-4">
-            Work Experience
-          </h2>
-          <p className="text-responsive-base text-muted-foreground max-w-2xl mx-auto">
-            My professional journey and the valuable experiences that have shaped my career.
-          </p>
-        </motion.div>
+          Work History
+        </motion.h2>
+        <motion.p className="text-muted-foreground mb-12 max-w-xl" {...fadeUp(0.1)}>
+          Professional roles where I&apos;ve built and shipped production systems.
+        </motion.p>
 
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            className="relative"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {/* Timeline line */}
-            <div className="absolute left-4 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-primary via-primary/50 to-transparent" />
+        <div className="relative max-w-2xl">
+          <div className="timeline-line" />
 
-            {experiences.map((experience, index) => (
-              <motion.div
-                key={experience.id}
-                className="relative pl-12 md:pl-20 pb-12 last:pb-0"
-                variants={itemVariants}
-              >
-                {/* Timeline dot */}
-                <div className="absolute left-0 md:left-4 top-0">
-                  <motion.div
-                    className="timeline-dot"
-                    whileHover={{ scale: 1.2 }}
-                  />
-                </div>
+          <div className="space-y-8 pl-8">
+            {experiences.map((exp, i) => (
+              <motion.div key={exp.id} className="relative" {...fadeUp(0.12 + i * 0.1)}>
+                <div className="timeline-dot" />
 
-                {/* Year indicator */}
-                <div className="absolute left-0 md:left-4 top-8 -translate-x-full pr-4 hidden lg:block">
-                  <span className="text-sm font-mono text-primary">
-                    {experience.duration.split(' - ')[0]}
-                  </span>
-                </div>
-
-                <Card className="modern-card overflow-hidden group">
-                  {/* Gradient top border */}
-                  <div className="h-1 bg-gradient-to-r from-primary via-purple-500 to-primary" />
-
-                  <CardContent className="p-6">
-                    {/* Header */}
-                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
-                      <div className="space-y-2">
-                        <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
-                          {experience.position}
-                        </h3>
-                        <div className="flex flex-wrap items-center gap-3 text-sm">
-                          <span className="flex items-center gap-1.5 text-primary font-medium">
-                            <Building2 className="h-4 w-4" />
-                            {experience.company}
-                          </span>
-                        </div>
-                      </div>
-                      <Badge variant="outline" className="shrink-0 w-fit flex items-center gap-1.5">
-                        <Calendar className="h-3 w-3" />
-                        {experience.duration}
-                      </Badge>
+                <div className="card-clean p-6">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
+                    <div>
+                      <h3 className="font-bold text-foreground">{exp.position}</h3>
+                      <p className="text-sm font-mono text-primary mt-0.5">{exp.company}</p>
                     </div>
+                    <span className="flex items-center gap-1.5 text-xs font-mono text-muted-foreground flex-shrink-0 mt-0.5">
+                      <Calendar className="h-3 w-3" />
+                      {exp.duration}
+                    </span>
+                  </div>
 
-                    {/* Description */}
-                    <p className="text-muted-foreground mb-4 leading-relaxed line-clamp-4">
-                      {experience.description}
-                    </p>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                    {exp.description}
+                  </p>
 
-                    {/* Technologies */}
-                    {experience.technologies && (
-                      <div className="badge-container">
-                        {experience.technologies.map((tech) => (
-                          <Badge
-                            key={tech}
-                            variant="secondary"
-                            className="text-xs font-mono bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors"
-                          >
-                            {tech}
-                          </Badge>
-                        ))}
-                      </div>
-                    )}
-
-                    </CardContent>
-                </Card>
+                  {exp.technologies && exp.technologies.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5">
+                      {exp.technologies.map(t => (
+                        <span key={t} className="tech-tag">{t}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </motion.div>
             ))}
-          </motion.div>
-
-          {/* Call to action */}
-          <motion.div
-            className="text-center mt-12"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-primary/10 to-purple-500/10 border border-primary/20">
-              <Briefcase className="h-5 w-5 text-primary" />
-              <span className="text-sm font-medium">
-                Open to new opportunities
-              </span>
-            </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
