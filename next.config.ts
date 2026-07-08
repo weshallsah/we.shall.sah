@@ -1,9 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Transpile Three.js packages which ship as ESM
-  transpilePackages: ['three', '@react-three/fiber', '@react-three/drei'],
-
   // Enable experimental features for better performance
   experimental: {
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
