@@ -1,4 +1,4 @@
-import { Project, Skill, Experience, ContactInfo, Hackathon } from '@/types';
+import { Project, Skill, Experience, ContactInfo, Hackathon, Education } from '@/types';
 
 export const personalInfo = {
   name: 'Vishal Sah',
@@ -6,6 +6,10 @@ export const personalInfo = {
   bio: 'Versatile backend engineer with expertise in both Web2 and Web3 technologies. Skilled in building scalable Node.js backends, Spring Boot microservices, blockchain protocols, and secure infrastructure. Experienced in payment systems, API gateways, decentralized content access, and the intersection of traditional and blockchain-based architectures.',
   avatar: '/avatar.jpg',
 };
+
+export const education: Education[] = [
+  { degree: 'B.Tech in Computer Science', institution: 'GGCT', grade: '7.61 CGPA' },
+];
 
 export const projects: Project[] = [
   {
@@ -130,89 +134,6 @@ export const experiences: Experience[] = [
     duration: 'April 2026 – Present',
     description: 'Designing and building production backend systems, contributing to architecture decisions, and delivering features across the full development lifecycle. Working across API design, database optimization, and infrastructure to deliver reliable, scalable software.',
     technologies: ['Node.js', 'TypeScript', 'PostgreSQL', 'REST APIs'],
-  },
-];
-
-export const githubRepos = [
-  {
-    id: '1',
-    name: 'attenomics-backend-apis',
-    url: 'https://github.com/weshallsah/attenomics-backend-apis',
-    description: 'Backend APIs developed during Attenomics internship - production-ready Node.js services',
-    technologies: ['Node.js', 'Express', 'PostgreSQL', 'AWS'],
-    stars: 0,
-    forks: 0,
-    featured: true,
-  },
-  {
-    id: '2',
-    name: 'Attenomics-LLM-backend',
-    url: 'https://github.com/weshallsah/Attenomics-LLM-backend',
-    description: 'LLM backend system with RAG implementation and vector database integration',
-    technologies: ['Node.js', 'PostgreSQL', 'LangChain', 'Vector Databases'],
-    stars: 0,
-    forks: 0,
-    featured: true,
-  },
-  {
-    id: '3',
-    name: 'Sound-live-Tee',
-    url: 'https://github.com/prosound-live/Sound-live-Tee',
-    description: 'Web3 music platform frontend and user interface components',
-    technologies: ['JavaScript', 'Web3', 'React', 'IPFS'],
-    stars: 0,
-    forks: 0,
-    featured: true,
-  },
-  {
-    id: '4',
-    name: 'contract-soundlive',
-    url: 'https://github.com/prosound-live/contract-soundlive',
-    description: 'Smart contracts for ProSound Web3 music rental protocol',
-    technologies: ['Solidity', 'Hardhat', 'ERC-721', 'Web3'],
-    stars: 0,
-    forks: 0,
-    featured: true,
-  },
-  {
-    id: '5',
-    name: 'ddos-protector',
-    url: 'https://github.com/ddos-protector',
-    description: 'Advanced rate limiting and anti-scraping gateway system',
-    technologies: ['Node.js', 'NGINX', 'Lua', 'TypeScript'],
-    stars: 0,
-    forks: 0,
-    featured: true,
-  },
-  {
-    id: '6',
-    name: 'sneaker-sync',
-    url: 'https://github.com/sneaker-sync',
-    description: 'Full-stack mobile sneaker marketplace built with Flutter and Node.js',
-    technologies: ['Flutter', 'Dart', 'Node.js', 'MongoDB'],
-    stars: 0,
-    forks: 0,
-    featured: true,
-  },
-  {
-    id: '7',
-    name: 'streamer',
-    url: 'https://github.com/vvs-pvt-ltd',
-    description: 'Live streaming platform with RTMP ingestion, FFmpeg processing, and MongoDB GridFS storage',
-    technologies: ['Node.js', 'Express.js', 'RTMP', 'FFmpeg', 'MongoDB'],
-    stars: 0,
-    forks: 0,
-    featured: true,
-  },
-  {
-    id: '8',
-    name: 'attenomics',
-    url: 'https://github.com/Attenomics-Labs',
-    description: 'Scalable social media analytics backend with automated data pipelines and ML metrics extraction',
-    technologies: ['Node.js', 'Express.js', 'PostgreSQL', 'AWS'],
-    stars: 0,
-    forks: 0,
-    featured: true,
   },
 ];
 

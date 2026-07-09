@@ -30,22 +30,18 @@ export interface SocialLink {
   icon: string;
 }
 
-export interface GitHubRepo {
-  id: string;
-  name: string;
-  url: string;
-  description: string;
-  technologies: string[];
-  stars: number;
-  forks: number;
-  featured: boolean;
-}
-
 export interface ContactInfo {
   email: string;
   phone?: string;
   location: string;
   socialLinks: SocialLink[];
+}
+
+export interface Education {
+  degree: string;
+  institution: string;
+  grade?: string;
+  duration?: string;
 }
 
 export interface Hackathon {

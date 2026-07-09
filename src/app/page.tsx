@@ -1,25 +1,23 @@
-import { Navigation } from '@/components/navigation';
-import { Hero } from '@/components/sections/hero';
+import { ResumeHeader } from '@/components/sections/resume-header';
 import { About } from '@/components/sections/about';
+import { Experience } from '@/components/sections/experience';
 import { Projects } from '@/components/sections/projects';
 import { Hackathons } from '@/components/sections/hackathons';
-import { Experience } from '@/components/sections/experience';
-import { Contact } from '@/components/sections/contact';
+import { Education } from '@/components/sections/education';
 import { Footer } from '@/components/footer';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
+    <>
+      <ResumeHeader />
       <main>
-        <Hero />
         <About />
+        <Experience />
         <Projects />
         <Hackathons />
-        <Experience />
-        <Contact />
+        <Education />
       </main>
       <Footer />
-    </div>
+    </>
   );
 }
