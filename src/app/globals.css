@@ -40,15 +40,6 @@ ul, ol {
   padding-inline-start: 1.8rem;
 }
 
-ul.plain {
-  list-style: none;
-  padding-inline-start: 0;
-}
-
-ul.plain > li + li {
-  margin-top: 1.4rem;
-}
-
 a {
   color: #100f0f;
   text-underline-offset: 0.3rem;
@@ -69,6 +60,11 @@ a:visited:hover {
 ol > li::marker,
 ul > li::marker {
   color: #575653;
+}
+
+.contact-link {
+  font-weight: 700;
+  text-decoration: underline;
 }
 
 /* ── Nav / header ────────────────────────────────────────────── */

@@ -36,12 +36,12 @@ export function ResumeHeader() {
           {personalInfo.title}. {personalInfo.bio}
         </p>
         <p>
-          Check out my {github && <a href={github.url}>github</a>}
-          {linkedin && <> or connect on <a href={linkedin.url}>linkedin</a></>}
-          {twitter && <>, ping me on <a href={twitter.url}>x.com</a></>}, or send me{' '}
-          <a href={`mailto:${contactInfo.email}`}>an email</a>.
+          Check out my {github && <a className="contact-link" href={github.url} target="_blank" rel="noopener noreferrer">github</a>},
+          {twitter && <> ping me on <a className="contact-link" href={twitter.url} target="_blank" rel="noopener noreferrer">x.com</a>,</>}
+          {linkedin && <> <a className="contact-link" href={linkedin.url} target="_blank" rel="noopener noreferrer">linkedin</a></>}
+          {' '}or send me <a className="contact-link" href={`mailto:${contactInfo.email}`}>an email</a>.
           {' '}I&apos;m based in {contactInfo.location}.
-          {' '}You can also grab my <a href="/resume/withexperience.pdf" download="Vishal_Sah_Resume.pdf">resume</a>.
+          {' '}You can also grab my <a className="contact-link" href="/resume/withexperience.pdf" download="Vishal_Sah_Resume.pdf">resume</a>.
         </p>
       </section>
     </>

@@ -2,6 +2,7 @@ export interface Project {
   id: string;
   title: string;
   description: string;
+  blurb: string;
   image: string;
   technologies: string[];
   liveUrl?: string;
@@ -21,6 +22,7 @@ export interface Experience {
   position: string;
   duration: string;
   description: string;
+  blurb: string;
   technologies?: string[];
 }
 
@@ -50,6 +52,7 @@ export interface Hackathon {
   organizer: string;
   project: string;
   description: string;
+  blurb: string;
   result: string;
   grantWon?: string;
   technologies: string[];
