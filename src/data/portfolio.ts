@@ -149,12 +149,12 @@ export const hackathons: Hackathon[] = [
   {
     id: '1',
     name: 'MetaMask × 1Shot API × Venice AI Hackathon',
-    organizer: 'MetaMask / 1Shot API / Venice AI',
+    organizer: 'HackQuest',
     project: 'ProSound – Web3 Music Rental Protocol',
     description:
-      'Built a decentralized music rental protocol using NFTs for content ownership and time-bound access. Record NFTs represent ownership; rental NFTs grant encrypted access via Lit Protocol TEE. IP registered on Story Protocol. Winner of bounties for best use of decentralized access control.',
+      'Built a decentralized music rental protocol using NFTs for content ownership and time-bound access. Record NFTs represent ownership; rental NFTs grant encrypted access via Lit Protocol TEE. IP registered on Story Protocol. Won 3rd prize for best use of decentralized access control.',
     blurb: 'NFT-gated music rental, TEE-encrypted access via Lit Protocol, IP on Story Protocol',
-    result: 'Bounty Winner',
+    result: '3rd Prize',
     technologies: ['Solidity', 'Hardhat', 'Story Protocol', 'Lit Protocol', 'IPFS', 'ERC-721', 'Node.js'],
     liveUrl: 'https://www.prosound.live',
     githubUrl: 'https://github.com/prosound-live/contract-soundlive',

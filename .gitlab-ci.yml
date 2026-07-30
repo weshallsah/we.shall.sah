@@ -1,0 +1,55 @@
+image: node:22-alpine
+
+stages:
+  - install
+  - test
+  - build
+
+# Cache npm's download cache so `npm ci` stays fast across jobs and pipelines.
+cache:
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - .npm/
+  policy: pull
+
+variables:
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+  NEXT_TELEMETRY_DISABLED: "1"
+
+install:
+  stage: install
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - .npm/
+    policy: pull-push
+  script:
+    - npm ci
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - node_modules/
+
+test:
+  stage: test
+  needs:
+    - install
+  script:
+    - npm run lint
+    - npm run type-check
+
+build:
+  stage: build
+  needs:
+    - install
+    - test
+  script:
+    - npm run build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - .next/
