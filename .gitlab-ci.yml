@@ -91,8 +91,19 @@ deploy:
     - |
       sshpass -e ssh $SSH_OPTS "$DEPLOY_USER@$DEPLOY_HOST" sh -se <<EOF
       set -e
-      # Non-interactive SSH skips .bashrc, so nvm-installed node/pm2 need sourcing.
-      [ -s "\$HOME/.nvm/nvm.sh" ] && . "\$HOME/.nvm/nvm.sh"
+      # Non-interactive sh reads no .bashrc/.profile, so node installed via nvm
+      # or a custom prefix is not on PATH. Probe the usual locations.
+      export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:\$PATH"
+      [ -s "\$HOME/.nvm/nvm.sh" ] && . "\$HOME/.nvm/nvm.sh" || true
+      if ! command -v npm > /dev/null 2>&1; then
+        for d in "\$HOME/.nvm/versions/node"/*/bin "\$HOME/.local/share/fnm/node-versions"/*/installation/bin; do
+          [ -d "\$d" ] && PATH="\$d:\$PATH" || true
+        done
+        export PATH
+      fi
+      command -v npm > /dev/null 2>&1 || { echo "ERROR: npm not found on the server. Install Node first."; exit 127; }
+      command -v pm2 > /dev/null 2>&1 || { echo "ERROR: pm2 not found on the server. Run: sudo npm i -g pm2"; exit 127; }
+      echo "Using node \$(node -v) / npm \$(npm -v)"
       cd '$DEPLOY_PATH'
       npm ci --omit=dev --no-audit --fund=false
       if pm2 describe '$PM2_APP_NAME' > /dev/null 2>&1; then
