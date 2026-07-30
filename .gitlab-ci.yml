@@ -5,40 +5,41 @@ stages:
   - test
   - build
 
-# Cache npm's download cache so `npm ci` stays fast across jobs and pipelines.
-cache:
-  key:
-    files:
-      - package-lock.json
-  paths:
-    - .npm/
-  policy: pull
-
 variables:
   npm_config_cache: "$CI_PROJECT_DIR/.npm"
   NEXT_TELEMETRY_DISABLED: "1"
 
+# node_modules is shared through the cache, not artifacts — 26k files blows past
+# the artifact upload limit. Jobs fall back to `npm ci` if the cache misses
+# (cold runner, different runner, evicted key).
+.node_cache: &node_cache
+  key:
+    files:
+      - package-lock.json
+    prefix: node
+  paths:
+    - .npm/
+    - node_modules/
+  policy: pull
+
+.ensure_deps: &ensure_deps
+  - test -d node_modules || npm ci --prefer-offline --no-audit --fund=false
+
 install:
   stage: install
   cache:
-    key:
-      files:
-        - package-lock.json
-    paths:
-      - .npm/
+    <<: *node_cache
     policy: pull-push
   script:
-    - npm ci
-  artifacts:
-    expire_in: 1 hour
-    paths:
-      - node_modules/
+    - npm ci --prefer-offline --no-audit --fund=false
 
 test:
   stage: test
   needs:
     - install
+  cache: *node_cache
   script:
+    - *ensure_deps
     - npm run lint
     - npm run type-check
 
@@ -47,9 +48,13 @@ build:
   needs:
     - install
     - test
+  cache: *node_cache
   script:
+    - *ensure_deps
     - npm run build
   artifacts:
     expire_in: 1 week
     paths:
       - .next/
+    exclude:
+      - .next/cache/**/*
