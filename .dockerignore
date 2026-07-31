@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.gitlab-ci.yml
+.npm
+npm-debug.log*
+Dockerfile
+.dockerignore
+README.md
+DEPLOYMENT.md
+.env*.local
+tsconfig.tsbuildinfo
+.claude
+.vscode
