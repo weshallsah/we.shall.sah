@@ -56,17 +56,22 @@ build:
   stage: build
   image: docker:27-cli
   services:
-    - docker:27-dind
+    - name: docker:27-dind
+      command: ["--tls=false"]
   needs:
     - test
   cache: []
   variables:
-    DOCKER_TLS_CERTDIR: "/certs"
-    DOCKER_HOST: "tcp://docker:2376"
-    DOCKER_TLS_VERIFY: "1"
-    DOCKER_CERT_PATH: "/certs/client"
+    # TLS off: the runner never shared /certs/client with the job container.
+    # The job<->dind link is on the runner's private network, not the internet.
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_HOST: "tcp://docker:2375"
+    DOCKER_DRIVER: overlay2
   script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    # Wait for dind to accept connections — the service can lag the job start.
+    - for i in $(seq 1 30); do docker info > /dev/null 2>&1 && break; sleep 1; done
+    - docker info > /dev/null
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
     # Reuse the previous image's layers so unchanged deps are not rebuilt.
     - docker pull "$IMAGE_LATEST" || true
     - docker build --cache-from "$IMAGE_LATEST" -t "$IMAGE_SHA" -t "$IMAGE_LATEST" .
