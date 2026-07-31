@@ -1,3 +1,19 @@
+# ==========================================================================
+#  Portfolio — install → test → build → deploy
+#
+#  Build and deploy run on the Vultr server over SSH: the image is built
+#  there with Docker, so no registry, no docker-in-docker, and no privileged
+#  runner are required.
+#
+#  Required CI/CD variables (Settings → CI/CD → Variables):
+#    SSH_PASSWORD   server login password   (Masked)
+#    DEPLOY_HOST    server IP or hostname
+#    DEPLOY_USER    SSH username
+#    DEPLOY_PATH    build dir on the server, e.g. /home/qoneqt/portfolio
+#
+#  Required on the server: Docker, with $DEPLOY_USER in the `docker` group.
+# ==========================================================================
+
 stages:
   - install
   - test
@@ -5,112 +21,104 @@ stages:
   - deploy
 
 variables:
-  npm_config_cache: "$CI_PROJECT_DIR/.npm"
   NEXT_TELEMETRY_DISABLED: "1"
-  # Deploy defaults — override any of these in Settings → CI/CD → Variables.
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
   DEPLOY_PORT: "8000"
   DEPLOY_SSH_PORT: "22"
   CONTAINER_NAME: "portfolio"
-  IMAGE_SHA: "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
-  IMAGE_LATEST: "$CI_REGISTRY_IMAGE:latest"
+  IMAGE_TAG: "portfolio:$CI_COMMIT_SHORT_SHA"
 
-# node_modules is shared through the cache, not artifacts — 26k files blows past
-# the artifact upload limit. Jobs fall back to `npm ci` if the cache misses
-# (cold runner, different runner, evicted key).
-.node_cache: &node_cache
-  key:
-    files:
-      - package-lock.json
-    prefix: node
-  paths:
-    - .npm/
-    - node_modules/
-  policy: pull
+# --------------------------------------------------------------------------
+#  Templates
+# --------------------------------------------------------------------------
 
-.ensure_deps: &ensure_deps
-  - test -d node_modules || npm ci --prefer-offline --no-audit --fund=false
-
-install:
-  stage: install
+# Dependencies travel by cache, not artifacts: node_modules is ~26k files and
+# exceeds the artifact upload limit. Cache is best-effort, so jobs reinstall
+# if it misses.
+.node:
   image: node:22-alpine
   cache:
-    <<: *node_cache
+    key:
+      files:
+        - package-lock.json
+      prefix: node
+    paths:
+      - .npm/
+      - node_modules/
+    policy: pull
+
+# sshpass reads the password from $SSHPASS, keeping it out of the process
+# list and the job log.
+.remote:
+  image: alpine:3.20
+  cache: []
+  variables:
+    SSHPASS: "$SSH_PASSWORD"
+    SSH_OPTS: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -p $DEPLOY_SSH_PORT"
+    SERVER: "$DEPLOY_USER@$DEPLOY_HOST"
+  before_script:
+    - apk add --no-cache openssh-client sshpass rsync
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# --------------------------------------------------------------------------
+#  Pipeline
+# --------------------------------------------------------------------------
+
+install:
+  extends: .node
+  stage: install
+  cache:
+    key:
+      files:
+        - package-lock.json
+      prefix: node
+    paths:
+      - .npm/
+      - node_modules/
     policy: pull-push
   script:
     - npm ci --prefer-offline --no-audit --fund=false
 
 test:
+  extends: .node
   stage: test
-  image: node:22-alpine
-  needs:
-    - install
-  cache: *node_cache
+  needs: [install]
   script:
-    - *ensure_deps
+    - test -d node_modules || npm ci --prefer-offline --no-audit --fund=false
     - npm run lint
     - npm run type-check
 
-# The Dockerfile runs `npm run build` inside the image, so there is no separate
-# npm build job and no .next artifact to upload.
 build:
+  extends: .remote
   stage: build
-  image: docker:27-cli
-  services:
-    - name: docker:27-dind
-      command: ["--tls=false"]
-  needs:
-    - test
-  cache: []
-  variables:
-    # TLS off: the runner never shared /certs/client with the job container.
-    # The job<->dind link is on the runner's private network, not the internet.
-    DOCKER_TLS_CERTDIR: ""
-    DOCKER_HOST: "tcp://docker:2375"
-    DOCKER_DRIVER: overlay2
+  needs: [test]
   script:
-    # Wait for dind to accept connections — the service can lag the job start.
-    - for i in $(seq 1 30); do docker info > /dev/null 2>&1 && break; sleep 1; done
-    - docker info > /dev/null
-    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
-    # Reuse the previous image's layers so unchanged deps are not rebuilt.
-    - docker pull "$IMAGE_LATEST" || true
-    - docker build --cache-from "$IMAGE_LATEST" -t "$IMAGE_SHA" -t "$IMAGE_LATEST" .
-    - docker push "$IMAGE_SHA"
-    - docker push "$IMAGE_LATEST"
+    - sshpass -e ssh $SSH_OPTS "$SERVER" "mkdir -p '$DEPLOY_PATH'"
+    # Sources only — the Dockerfile installs deps and builds inside the image.
+    - >
+      rsync -az --delete
+      --exclude '.git/' --exclude 'node_modules/' --exclude '.next/' --exclude '.npm/'
+      -e "sshpass -e ssh $SSH_OPTS" ./ "$SERVER:$DEPLOY_PATH/"
+    - sshpass -e ssh $SSH_OPTS "$SERVER" "cd '$DEPLOY_PATH' && docker build -t '$IMAGE_TAG' -t portfolio:latest ."
 
 deploy:
+  extends: .remote
   stage: deploy
-  image: alpine:3.20
-  needs:
-    - build
-  # Only the default branch deploys. Add `when: manual` for a button instead.
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  needs: [build]
   environment:
     name: production
     url: http://$DEPLOY_HOST:$DEPLOY_PORT
-  cache: []
-  variables:
-    # sshpass reads the password from $SSHPASS, so it never lands in the
-    # process list or the job log the way `sshpass -p <secret>` would.
-    SSHPASS: "$SSH_PASSWORD"
-    SSH_OPTS: "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR -p $DEPLOY_SSH_PORT"
-  before_script:
-    - apk add --no-cache openssh-client sshpass
   script:
     - |
-      sshpass -e ssh $SSH_OPTS "$DEPLOY_USER@$DEPLOY_HOST" sh -se <<EOF
+      sshpass -e ssh $SSH_OPTS "$SERVER" sh -se <<EOF
       set -e
-      # CI_JOB_TOKEN is valid only for this job's lifetime and grants read-only
-      # access to this project's registry — nothing durable is left on the box.
-      echo '$CI_JOB_TOKEN' | docker login -u gitlab-ci-token --password-stdin '$CI_REGISTRY'
-      docker pull '$IMAGE_SHA'
       docker rm -f '$CONTAINER_NAME' 2>/dev/null || true
       docker run -d \
         --name '$CONTAINER_NAME' \
         --restart unless-stopped \
         -p '$DEPLOY_PORT':3000 \
-        '$IMAGE_SHA'
-      docker logout '$CI_REGISTRY' || true
+        '$IMAGE_TAG'
       docker image prune -f
+      docker ps --filter "name=$CONTAINER_NAME"
       EOF
